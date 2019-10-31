@@ -2,6 +2,8 @@ sudo: false
 
 language: android
 
+jdk: oraclejdk8
+
 before_install:
   - chmod +x gradlew
 
@@ -20,7 +22,11 @@ licenses:
 android:
   components:
     - tools
+    - tools
     - platform-tools
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repositor
     - build-tools-29.0.2
     - android-29
     - android-$ANDROID_EMULATOR_LEVEL
