@@ -1,43 +1,41 @@
-sudo: false
-
 language: android
-
-jdk: oraclejdk8
+dist: trusty
 
 before_install:
   - chmod +x gradlew
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - cp ./licenses/* "$ANDROID_HOME/licenses/"
+  - ./gradlew dependencies || true
 
 env:
   global:
-    - ANDROID_API_LEVEL=27
-    - ANDROID_EMULATOR_LEVEL=21
-    - ANDROID_BUILD_TOOLS_VERSION=27.0.3
+    - ANDROID_API=29
+    - EMULATOR_API_LEVEL=21
+    - ANDROID_BUILD_TOOLS=29.0.2
     - ANDROID_ABI=armeabi-v7a
     - ANDROID_TAG=google_apis
-    - ADB_INSTALL_TIMEOUT=20
-
-licenses:
-  - '.+'
+    - ADB_INSTALL_TIMEOUT=20 # minutes
 
 android:
   components:
     - tools
-    - tools
     - platform-tools
-    - extra-google-google_play_services
+    - build-tools-$ANDROID_BUILD_TOOLS
+    - android-$ANDROID_API
+    - android-$EMULATOR_API_LEVEL
     - extra-google-m2repository
-    - extra-android-m2repositor
-    - build-tools-29.0.2
-    - android-29
-    - android-$ANDROID_EMULATOR_LEVEL
-    - sys-img-armeabi-v7a-google_apis-$ANDROID_EMULATOR_LEVEL
+    - extra-android-m2repository # for design library
+    - addon-google_apis-google-19 # google play services
+    - sys-img-armeabi-v7a-google_apis-$ANDROID_API_LEVEL
+    - sys-img-armeabi-v7a-google_apis-$EMULATOR_API_LEVEL
 
-script:
-  - ./gradlew build connectedCheck
 
 before_script:
-  # Create and start emulator.
-  - echo no | android create avd --force -n test -t "android-"$ANDROID_EMULATOR_LEVEL --abi $ANDROID_ABI --tag $ANDROID_TAG
-  - emulator -avd test -no-window &
+  - echo no | android create avd --force -n test -t "android-"$EMULATOR_API_LEVEL --abi $ANDROID_ABI --tag $ANDROID_TAG
+  - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
+
+
+script:
+  - "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
