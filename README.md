@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/LiberaMeFromHell/191621.svg?branch=master)](https://travis-ci.org/LiberaMeFromHell/191621)

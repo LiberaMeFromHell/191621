@@ -10,6 +10,7 @@ env:
     - ANDROID_ABI=armeabi-v7a
     - ANDROID_TAG=google_apis
     - ADB_INSTALL_TIMEOUT=10 # minutes (2 minutes by default)
+    - CODECOV_TOKEN="18b7df42-83af-4132-b0ba-66651a1cb2ef"
 
 android:
   components:
