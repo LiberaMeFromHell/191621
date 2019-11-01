@@ -16,6 +16,9 @@ env:
     - ANDROID_TAG=google_apis
     - ADB_INSTALL_TIMEOUT=20 # minutes
 
+licenses:
+  - '.+'
+
 android:
   components:
     - tools
